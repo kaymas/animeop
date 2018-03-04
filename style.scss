@@ -1,0 +1,55 @@
+$gap: 32px;
+$screen-md: 769px;
+$screen-lg: 960px + (2 * $gap);
+$screen-xl: 1152px + (2 * $gap);
+$screen-xxl: 1344px + (2 * $gap);
+
+//to move the footer down without any content on the page
+// body {
+//   display: flex;
+//   min-height: 100vh;
+//   flex-direction: column;
+// }
+  
+// #wrapper {
+//   flex: 1;
+// }
+
+#wrapper {
+  min-height: calc(100vh - 90px);
+}
+.footer {
+  padding: 2rem
+}
+
+.module-card-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+}
+  
+.module-card {
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    @media (min-width: $screen-md) {
+        width: 48%;
+        min-width: 0;
+    }
+
+    @media (min-width: $screen-lg){
+        width: 30%;
+        min-width: 0;
+    }
+
+    @media (min-width: $screen-xl){
+        width: 25%;
+        min-width: 0;
+    }
+
+    @media (min-width: $screen-xxl){
+        width: 25%;
+        min-width: 0;
+    }
+}

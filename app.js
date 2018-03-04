@@ -35,7 +35,38 @@ function findMatches(){
                 let regex = new RegExp(this.value,'gi')
                 let title = anime.title.replace(regex,`<span class="highlight">${this.value}</span>`)
                 return `
-                    <li>${title}</li>
+                <div class="card module-card">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure>
+                                    <img src="${anime.image_url}" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="media-content is-clipped">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark is-medium">Score</span>
+                                            <span class="tag is-info is-medium">${anime.score}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark is-medium">Episodes</span>
+                                            <span class="tag is-success is-medium">${anime.episodes}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <p class="title is-2">${anime.title}</p>
+                            <p class="subtitle is-6">${anime.description}</p>
+                        </div>
+                    </div>
+                </div>
                 `
             }).join('')
             searchButton.classList.remove('is-loading')

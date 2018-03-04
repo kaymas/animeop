@@ -7,8 +7,9 @@
     <title>Anime OP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body><div id="wrapper">
     <section class="hero is-danger is-bold">
         <div class="hero-body">
             <div class="container">
@@ -29,9 +30,13 @@
                 </div>
             </form>
             <p class="searchHelp help is-danger is-invisible">Entered string must be atleast 3 characters</p>            
-            <ul class="suggestions"></ul>
+            <div class="columns">
+                <div class="column">
+                    <div class="module-card-wrap suggestions"></div>
+                </div>
+            </div>
         </div>
-    </section>
+    </section></div>
 
     <footer class="footer">
         <div class="container">
