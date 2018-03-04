@@ -5,14 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Anime OP</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </head>
 <body>
-    <form class="searchForm">
-        <input type="text" class="search" placeholder="enter anime">
-        <ul class="suggestions"></ul>
-    </form>
+    <section class="hero is-danger is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title is-1">Anime Openings Search</h1>
+            </div>
+        </div>
+    </section>
 
+    <section class="section">
+        <div class="container">
+            <div class="label">Enter Anime</div>
+            <form class="searchForm field is-grouped">
+                <div class="control is-expanded">
+                    <input type="text" class="search input" placeholder="enter anime" autofocus>
+                </div>
+                <div class="control">
+                    <button class="searchButton button is-link">Submit</button>
+                </div>
+            </form>
+            <p class="searchHelp help is-danger is-invisible">Entered string must be atleast 3 characters</p>            
+            <ul class="suggestions"></ul>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>Anime Op</strong> developed by <a href="https://github.com/kaymas">Kaymas</a> using the <a href="https://jikan.me/">Jikan API</a>
+                </p>
+            </div>
+        </div>
+    </footer>
     <script src="app.js"></script>
 </body>
 </html>
