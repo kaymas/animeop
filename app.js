@@ -8,9 +8,15 @@ const suggestions = document.querySelector('.suggestions')
 document.querySelector('.searchForm').addEventListener('submit', event => event.preventDefault(), false)
 
 searchInput.addEventListener('change', findMatches)
-// searchButton.addEventListener('click', findMatches)
+searchButton.addEventListener('click', () => {
+    searchInput.dispatchEvent(new Event('change'))
+    console.log("click sent")
+    
+})
 
 function findMatches(){
+    console.log("click recieved")
+    
     wordToMatch = this.value
     if(wordToMatch.length < 3){
         searchInput.classList.add('is-danger')
@@ -24,18 +30,18 @@ function findMatches(){
         searchButton.classList.add('is-loading')
     }
     let endpoint = baseUrl + `anime/${wordToMatch}/1`
-    console.log(endpoint);
+    console.log(endpoint)
 
     fetch(endpoint)
         .then(res => res.json())
         .then(blob => blob.result)
         .then(data => {
-            console.log(data);
+            console.log(data)
             let htmlContent = data.map(anime => {
-                let regex = new RegExp(this.value,'gi')
-                let title = anime.title.replace(regex,`<span class="highlight">${this.value}</span>`)
+                // let regex = new RegExp(this.value,'gi')
+                // let title = anime.title.replace(regex,`<span class="highlight">${this.value}</span>`)
                 return `
-                <div class="card module-card">
+                <div class="card module-card" animeId="${anime.id}">
                     <div class="card-content">
                         <div class="media">
                             <div class="media-left">
@@ -71,5 +77,24 @@ function findMatches(){
             }).join('')
             searchButton.classList.remove('is-loading')
             suggestions.innerHTML = htmlContent
+
+            let cards = document.querySelectorAll('.module-card')
+            console.log(cards)
+            cards.forEach(card => {
+                card.addEventListener('click', displaySongs)
+            });
         })
+}
+
+function displaySongs(){
+
+    animeId = this.attributes.animeId.value    
+    console.log("called by")
+    console.log(animeId)
+
+    
+
+    suggestions.innerHTML = `
+        <div class="card">Anime Selected of ID : ${animeId}</div>
+    `
 }
