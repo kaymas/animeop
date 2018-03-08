@@ -3,20 +3,24 @@ const searchInput = document.querySelector('.search')
 const searchHelp = document.querySelector('.searchHelp')
 const searchButton = document.querySelector('.searchButton')
 const suggestions = document.querySelector('.suggestions')
+const songWrap = document.querySelector('.songWrap')
+const songCard = document.querySelector('.songCard')
+const goBack = document.querySelector('.backBtnWrap')
 
 //added to prevent page reload on pressing enter(submit)
 document.querySelector('.searchForm').addEventListener('submit', event => event.preventDefault(), false)
 
 searchInput.addEventListener('change', findMatches)
 searchButton.addEventListener('click', () => {
-    searchInput.dispatchEvent(new Event('change'))
-    console.log("click sent")
-    
+    searchInput.dispatchEvent(new Event('change'))    
 })
 
-function findMatches(){
-    console.log("click recieved")
-    
+goBack.addEventListener('click', event => {
+    songWrap.classList.add('is-removed')
+    suggestions.classList.remove('is-removed')
+})
+
+function findMatches(){    
     wordToMatch = this.value
     if(wordToMatch.length < 3){
         searchInput.classList.add('is-danger')
@@ -30,18 +34,16 @@ function findMatches(){
         searchButton.classList.add('is-loading')
     }
     let endpoint = baseUrl + `anime/${wordToMatch}/1`
-    console.log(endpoint)
 
     fetch(endpoint)
         .then(res => res.json())
         .then(blob => blob.result)
         .then(data => {
-            console.log(data)
             let htmlContent = data.map(anime => {
                 // let regex = new RegExp(this.value,'gi')
                 // let title = anime.title.replace(regex,`<span class="highlight">${this.value}</span>`)
                 return `
-                <div class="card module-card" animeId="${anime.id}">
+                <div class="card module-card" animeId="${anime.id}" animeTitle="${anime.title}" >
                     <div class="card-content">
                         <div class="media">
                             <div class="media-left">
@@ -76,10 +78,11 @@ function findMatches(){
                 `
             }).join('')
             searchButton.classList.remove('is-loading')
+            songWrap.classList.add('is-removed')
+            suggestions.classList.remove('is-removed')
             suggestions.innerHTML = htmlContent
 
             let cards = document.querySelectorAll('.module-card')
-            console.log(cards)
             cards.forEach(card => {
                 card.addEventListener('click', displaySongs)
             });
@@ -88,13 +91,33 @@ function findMatches(){
 
 function displaySongs(){
 
+    songWrap.classList.remove('is-removed')
+    suggestions.classList.add('is-removed')
+
     animeId = this.attributes.animeId.value    
-    console.log("called by")
-    console.log(animeId)
+    animeTitle = this.attributes.animeTitle.value    
 
-    
-
-    suggestions.innerHTML = `
-        <div class="card">Anime Selected of ID : ${animeId}</div>
+    songCard.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-title">${animeTitle}</div>
+            </div>
+        </div>
     `
+
+    let endpoint = `https://private-anon-4f43f68e5a-jikan.apiary-proxy.com/anime/${animeId}/episodes/parameter`
+
+    fetch(endpoint)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            let title = data.title;
+            songCard.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-title">${title}</div>
+                    </div>
+                </div>
+            `
+        })
 }

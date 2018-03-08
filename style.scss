@@ -68,3 +68,17 @@ $screen-xxl: 1344px + (2 * $gap);
 .fa-heart{
     color: hsl(348, 100%, 61%);
 }
+
+.backBtn{
+    font-size: 3rem;
+    color: hsl(348, 100%, 61%);
+    cursor: pointer;
+}
+
+.backBtnWrap{
+    display: inline-block;
+}
+
+.is-removed{
+    display: none !important;
+}

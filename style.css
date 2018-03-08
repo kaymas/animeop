@@ -54,4 +54,15 @@
 .fa-heart {
   color: #ff3860; }
 
+.backBtn {
+  font-size: 3rem;
+  color: #ff3860;
+  cursor: pointer; }
+
+.backBtnWrap {
+  display: inline-block; }
+
+.is-removed {
+  display: none !important; }
+
 /*# sourceMappingURL=style.css.map */
