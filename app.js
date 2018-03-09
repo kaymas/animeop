@@ -108,16 +108,122 @@ function displaySongs(){
     let endpoint = `https://private-anon-4f43f68e5a-jikan.apiary-proxy.com/anime/${animeId}/episodes/parameter`
 
     fetch(endpoint)
+        .then(response => {
+            if (response.status !== 200) {
+                // make the promise be rejected if we didn't get a 200 response
+                throw new Error("Invalid response")
+            }else{
+                return response
+            }
+        })
         .then(res => res.json())
         .then(data => {
             console.log(data);
-            let title = data.title;
+
+            let opSongs = data.opening_theme;
+            let endSongs = data.ending_theme;
+
+            let opSongsEntity = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Opening Songs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${
+                            opSongs.map(song => `
+                                <tr>
+                                    <td>${song}</td>
+                                </tr>
+                            `).join(" ")
+                        }
+                    </tbody>
+                </table>
+            `
+
+            let endSongsEntity = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Ending Songs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${
+                            endSongs.map(song => `
+                                <tr>
+                                    <td>${song}</td>
+                                </tr>
+                            `).join(" ")
+                        }
+                    </tbody>
+                </table>
+            `
+
             songCard.innerHTML = `
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-title">${title}</div>
+                        <div class="card-header-title">${data.title}</div>
                     </div>
+                    <div class="card-content">
+                        <div class="columns">
+                            <div class="column is-narrow">
+                                <figure>
+                                    <img src="${data.image_url}" alt="Anime image">
+                                </figure>
+                            </div>
+                            <div class="column">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark is-medium">Score</span>
+                                            <span class="tag is-info is-medium">${data.score}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark is-medium">Episodes</span>
+                                            <span class="tag is-success is-medium">${data.episodes}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark is-medium">Popularity</span>
+                                            <span class="tag is-warning is-medium">${data.popularity}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark is-medium">Status</span>
+                                            <span class="tag is-danger is-medium">${data.status}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <p class="subtitle is-6">${data.synopsis}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="content">${opSongsEntity}</div>
+                            <div class="content">${endSongsEntity}</div>
+                        </div>
+                    </div>
+
                 </div>
             `
+        })
+        .catch(error => {
+            let message = document.querySelector('.fetchMessage')
+            message.classList.remove('is-removed')
+            
+            document.querySelector('.errorTitle').innerHTML = `${error}`
+            document.querySelector('.errorMessage').innerHTML = `Couldn't process your request!`
+            
+            setTimeout(() => message.classList.add('is-removed'), 3200)
         })
 }
